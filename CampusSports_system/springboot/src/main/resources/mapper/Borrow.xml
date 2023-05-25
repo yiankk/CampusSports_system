@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.springboot.mapper.SportsMapper">
+    
+
+    <select id="listByCondition" resultType="com.example.springboot.entity.Sports">
+        select * from sports
+        <where>
+            <if test="name != null and name != ''">
+                name like concat('%', #{ name }, '%')
+            </if>
+            <if test="sportsNo != null and sportsNo != ''">
+                and sports_no  = #{sportsNo}
+            </if>
+        </where>
+        order by id desc
+    </select>
+
+    <insert id="save">
+        insert into sports(id,name,description,category,sports_no,cover)
+        values (#{id},#{name}, #{description},#{category},#{sportsNo},#{cover})
+    </insert>
+    <update id="updateById">
+        update sports set name = #{name}, description = #{description},sports_no = #{sportsNo} ,
+                          category= #{category},updatetime = #{updatetime},cover = #{cover} where id = #{id}
+    </update>
+    <delete id="deleteById">
+        delete from sports where id=#{id}
+    </delete>
+
+    <select id="list" resultType="com.example.springboot.entity.Sports">
+        select * from sports order by id desc
+    </select>
+
+
+    <select id="getById" resultType="com.example.springboot.entity.Sports">
+        select *from sports where id =#{id}
+    </select>
+</mapper>
